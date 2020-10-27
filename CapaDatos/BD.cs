@@ -9,7 +9,7 @@ namespace CapaDatos
 {
     public class BD
     {
-        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=****;database=requerimientos";
+        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=Mojito.P20;database=requerimientos";
         static readonly MySqlConnection conn = new MySqlConnection(connstring);
         private void Connect() {
             conn.Open();
@@ -83,7 +83,11 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT * FROM requerimieneto";
+            cmd.CommandText = "SELECT TipoRequerimientoDescripcion, PrioridadNombre, RequerimienetoDescripcion, PrioridadPlazo " +
+                "FROM Requerimiento " +
+                "INNER JOIN Prioridad, TipoRequerimiento " +
+                "WHERE Requerimiento.Prioridad_idPrioridad = Prioridad.idPrioridad " +
+                "AND Requerimiento.TipoRequerimiento_idTipoRequerimiento = TipoRequerimiento.idTipoRequerimiento";
             var reader = cmd.ExecuteReader();
             reader.Read();
             object[] results = new object[10];
