@@ -11,11 +11,11 @@ namespace Presentacion
 {
     public partial class Listado_Requerimientos : Form
     {
-        Gestion_Rquerimientos_Negocio negocio = new Gestion_Rquerimientos_Negocio();
+        readonly Gestion_Rquerimientos_Negocio negocio = new Gestion_Rquerimientos_Negocio();
         public Listado_Requerimientos()
         {
             InitializeComponent();
-            dataGridRequerimientos.Rows.Add(negocio.getRequerimientos());
+            dataGridRequerimientos.Rows.Add(negocio.GetRequerimientos());
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -25,7 +25,11 @@ namespace Presentacion
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataGridRequerimientos.Rows.Add(1, 2, 3, 4);
+        }
+
+        private void Listado_Requerimientos_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

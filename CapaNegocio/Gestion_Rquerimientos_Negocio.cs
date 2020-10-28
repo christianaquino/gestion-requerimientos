@@ -8,10 +8,16 @@ namespace CapaNegocio
 {
     public class Gestion_Rquerimientos_Negocio
     {
+        private readonly BD database = new CapaDatos.BD();
+        private int UsuarioLogueado;
+
+        public int GetUsuarioLogueado()
+        {
+            return UsuarioLogueado;
+        } 
         public void Login(String user, String password) {
-            BD database = new CapaDatos.BD();
             try{
-                database.Login(user, password);
+                UsuarioLogueado = database.Login(user, password);
             } catch (LoginException)
             {
                 throw new Exception("LoginException");
@@ -26,11 +32,24 @@ namespace CapaNegocio
             }
         }
 
-        public object[] getRequerimientos()
+        public object[] GetRequerimientos()
         {
-            BD database = new CapaDatos.BD();
-            return database.getRequerimientos();
+            return database.GetRequerimientos();
         }
         
+        public object[] GetTipoItems()
+        {
+            return database.GetTipoRequerimiento();
+        }
+
+        public object[] GetUsuarios()
+        {
+            return database.GetUsuarios();
+        }
+
+        public object[] GetPrioridad()
+        {
+            return database.GetPrioridad();
+        }
     }
 }

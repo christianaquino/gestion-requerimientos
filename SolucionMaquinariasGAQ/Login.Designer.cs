@@ -1,4 +1,4 @@
-﻿namespace SolucionMaquinariasGAQ
+﻿namespace GestionRequerimientos
 {
     partial class FormLogin
     {

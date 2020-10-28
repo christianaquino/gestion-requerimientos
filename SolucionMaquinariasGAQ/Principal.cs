@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Presentacion;
 
-namespace SolucionMaquinariasGAQ
+namespace GestionRequerimientos
 {
-    static class Login_Form
+    static class Principal
     {
         /// <summary>
         ///  The main entry point for the application.
@@ -17,7 +19,7 @@ namespace SolucionMaquinariasGAQ
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormLogin());
+            Application.Run(new Registro_Requerimiento());
         }
     }
 }

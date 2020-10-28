@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using CapaNegocio;
 using Presentacion;
 
-namespace SolucionMaquinariasGAQ
+namespace GestionRequerimientos
 {
     public partial class FormLogin : Form
     {
@@ -30,8 +30,6 @@ namespace SolucionMaquinariasGAQ
             try
             {
                 negocio.Login(textBoxUsuario.Text, textBoxPassword.Text);
-                Listado_Requerimientos listado = new Listado_Requerimientos();
-                listado.Show();
                 this.Hide();
             }
             catch (Exception ex)
