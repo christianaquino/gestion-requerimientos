@@ -31,7 +31,7 @@ namespace Presentacion
 
         private void Listado_Requerimientos_Load(object sender, EventArgs e)
         {
-            dataGridRequerimientos.DataSource = negocio.GetRequerimientos();
+
         }
     }
 }

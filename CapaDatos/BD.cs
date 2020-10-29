@@ -12,14 +12,20 @@ namespace CapaDatos
 {
     public class BD
     {
-        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=*****;database=requerimientos";
+        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=******;database=requerimientos";
         static readonly MySqlConnection conn = new MySqlConnection(connstring);
         private void Connect() {
-            conn.Open();
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
         }
 
         private void Close() {
-            conn.Close();
+            if (conn.State != ConnectionState.Closed)
+            {
+                conn.Close();
+            }
         }
 
         private string PasswordHash(string password)
