@@ -33,9 +33,9 @@ namespace CapaNegocio
             }
         }
 
-        public DataTable GetRequerimientos(int? tipo)
+        public DataTable GetRequerimientos(int? tipo, int? prioridad, bool? resuelto)
         {
-            return database.GetRequerimientos(tipo);
+            return database.GetRequerimientos(tipo, prioridad, resuelto);
         }
 
         public Dictionary<int, string> GetTipoItems()
@@ -53,9 +53,10 @@ namespace CapaNegocio
             return database.GetPrioridad();
         }
 
-        public void RegistrarRequerimiento(int tipoRequerimiento, int prioridad, int usuarioAsignado, string descripcion)
+        public int RegistrarRequerimiento(int tipoRequerimiento, int prioridad, int usuarioAsignado, string descripcion)
         {
             database.RegistrarRequerimiento(tipoRequerimiento, prioridad, usuarioAsignado, UsuarioLogueado, descripcion);
+            return database.getPlazo(prioridad);
         }
     }
 }

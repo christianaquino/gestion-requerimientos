@@ -12,7 +12,7 @@ namespace CapaDatos
 {
     public class BD
     {
-        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=Mojito.P20;database=requerimientos";
+        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=*****;database=requerimientos";
         static readonly MySqlConnection conn = new MySqlConnection(connstring);
         private void Connect() {
             if (conn.State != ConnectionState.Open)
@@ -88,7 +88,7 @@ namespace CapaDatos
             }
         }
 
-        public DataTable GetRequerimientos(int? tipo)
+        public DataTable GetRequerimientos(int? tipo, int? prioridad, bool? resuelto)
         {
             Connect();
             var cmd = conn.CreateCommand();
@@ -102,7 +102,22 @@ namespace CapaDatos
             {
                 cmd.CommandText += " AND TipoRequerimiento.idTipoRequerimiento = " + tipo;
             }
-            
+
+            if (prioridad != null)
+            {
+                cmd.CommandText += " AND Prioridad.idPrioridad = " + prioridad;
+            }
+
+            if(resuelto != null) {
+                if(resuelto == true) {
+                    cmd.CommandText += " AND RequerimienetoResuelto";
+                } else
+                {
+                    cmd.CommandText += " AND NOT RequerimienetoResuelto";
+                }
+                
+            }
+
             var reader = cmd.ExecuteReader();
             
             DataTable requerimientos = new DataTable();
@@ -137,7 +152,7 @@ namespace CapaDatos
             insertCmd.Parameters.AddWithValue("@prioridad", prioridad);
             insertCmd.Parameters.AddWithValue("@tipoRequerimiento", tipoRequerimiento);
             insertCmd.Parameters.AddWithValue("@usuarioAsignado", usuarioAsignado);
-            insertCmd.Parameters.AddWithValue("@creadoPor", creadoPor);
+            insertCmd.Parameters.AddWithValue("@creadoPor", 5);
             insertCmd.ExecuteNonQuery();
             Close();
         }
@@ -151,6 +166,19 @@ namespace CapaDatos
             reader.Close();
             Close();
             return results;
+        }
+
+        public int getPlazo(int idPrioridad)
+        {
+            Connect();
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT PrioridadPlazo FROM Prioridad WHERE idPrioridad = " + idPrioridad;
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            int plazo = reader.GetInt16("PrioridadPlazo");
+            reader.Close();
+            Close();
+            return plazo; 
         }
 
         public Dictionary<int, string> GetTipoRequerimiento()

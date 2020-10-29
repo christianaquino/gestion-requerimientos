@@ -12,7 +12,7 @@ namespace Presentacion
             InitializeComponent();
             comboBoxTipo.DataSource = new BindingSource(negocio.GetTipoItems(), null);
             comboBoxPrioridad.DataSource = new BindingSource(negocio.GetPrioridad(), null);
-            dataGridRequerimientos.DataSource = negocio.GetRequerimientos(null);
+            dataGridRequerimientos.DataSource = negocio.GetRequerimientos(null, null, null);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -22,7 +22,17 @@ namespace Presentacion
 
         private void button4_Click(object sender, EventArgs e)
         {
-            dataGridRequerimientos.DataSource = negocio.GetRequerimientos((int)comboBoxTipo.SelectedValue);
+            bool? resuelto = null;
+            if (radioButton1.Checked)
+            {
+                resuelto = true;
+            } else if (radioButton2.Checked)
+            {
+                resuelto = false;
+            }
+
+            dataGridRequerimientos.DataSource = negocio.GetRequerimientos(
+                (int)comboBoxTipo.SelectedValue, (int)comboBoxPrioridad.SelectedValue, resuelto);
         }
 
         private void Listado_Requerimientos_Load(object sender, EventArgs e)

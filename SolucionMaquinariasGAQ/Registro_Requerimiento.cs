@@ -54,8 +54,8 @@ namespace Presentacion
                 int prioridad = (int)comboBoxPrioridad.SelectedValue;
                 int usuarioAsignado = (int)comboBoxUsuario.SelectedValue;
                 string descripcion = textBoxDescripcion.Text;
-                negocio.RegistrarRequerimiento(tipoRequerimiento, prioridad, usuarioAsignado, descripcion);
-                MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es de");
+                int plazo = negocio.RegistrarRequerimiento(tipoRequerimiento, prioridad, usuarioAsignado, descripcion);
+                MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es de " + plazo + " días");
             } catch(Exception ex)
             {
                 MessageBox.Show("Ocurrió un error al guardar el requerimiento" + ex);
