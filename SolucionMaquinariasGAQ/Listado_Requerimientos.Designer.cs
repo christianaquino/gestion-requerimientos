@@ -64,7 +64,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Marcar como resuelto";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            
             // 
             // button2
             // 
@@ -126,6 +126,7 @@
             this.button4.TabIndex = 8;
             this.button4.Text = "Buscar";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // comboBoxTipo
             // 

@@ -12,7 +12,7 @@ namespace CapaDatos
 {
     public class BD
     {
-        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=******;database=requerimientos";
+        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=*****;database=requerimientos";
         static readonly MySqlConnection conn = new MySqlConnection(connstring);
         private void Connect() {
             if (conn.State != ConnectionState.Open)
@@ -88,7 +88,7 @@ namespace CapaDatos
             }
         }
 
-        public DataTable GetRequerimientos()
+        public DataTable GetRequerimientos(int? tipo, int? prioridad, bool? resuelto)
         {
             Connect();
             var cmd = conn.CreateCommand();
@@ -97,6 +97,27 @@ namespace CapaDatos
                 "INNER JOIN Prioridad, TipoRequerimiento " +
                 "WHERE Requerimiento.Prioridad_idPrioridad = Prioridad.idPrioridad " +
                 "AND Requerimiento.TipoRequerimiento_idTipoRequerimiento = TipoRequerimiento.idTipoRequerimiento";
+            
+            if(tipo!=null)
+            {
+                cmd.CommandText += " AND TipoRequerimiento.idTipoRequerimiento = " + tipo;
+            }
+
+            if (prioridad != null)
+            {
+                cmd.CommandText += " AND Prioridad.idPrioridad = " + prioridad;
+            }
+
+            if(resuelto != null) {
+                if(resuelto == true) {
+                    cmd.CommandText += " AND RequerimienetoResuelto";
+                } else
+                {
+                    cmd.CommandText += " AND NOT RequerimienetoResuelto";
+                }
+                
+            }
+
             var reader = cmd.ExecuteReader();
             
             DataTable requerimientos = new DataTable();
@@ -139,7 +160,7 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idUsuario, UsuarioNombre FROM Usuario ORDER BY UsuarioNombre ASC";
+            cmd.CommandText = "CALL GET_USUARIOS()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
@@ -147,12 +168,24 @@ namespace CapaDatos
             return results;
         }
 
+        public int getPlazo(int idPrioridad)
+        {
+            Connect();
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT PrioridadPlazo FROM Prioridad WHERE idPrioridad = " + idPrioridad;
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            int plazo = reader.GetInt16("PrioridadPlazo");
+            reader.Close();
+            Close();
+            return plazo; 
+        }
+
         public Dictionary<int, string> GetTipoRequerimiento()
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idTipoRequerimiento, TipoRequerimientoDescripcion FROM TipoRequerimiento " +
-                "ORDER BY TipoRequerimientoDescripcion ASC";
+            cmd.CommandText = "CALL GET_TIPO_REQUERIMIENTO()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
@@ -164,7 +197,7 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idPrioridad, PrioridadNombre FROM Prioridad ORDER BY PrioridadNombre ASC";
+            cmd.CommandText = "CALL GET_PRIORIDAD()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();

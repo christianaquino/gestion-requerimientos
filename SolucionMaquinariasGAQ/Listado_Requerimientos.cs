@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using CapaNegocio;
+using System;
 using System.Windows.Forms;
-using CapaNegocio;
 
 namespace Presentacion
 {
@@ -17,7 +12,7 @@ namespace Presentacion
             InitializeComponent();
             comboBoxTipo.DataSource = new BindingSource(negocio.GetTipoItems(), null);
             comboBoxPrioridad.DataSource = new BindingSource(negocio.GetPrioridad(), null);
-            dataGridRequerimientos.DataSource = negocio.GetRequerimientos();
+            dataGridRequerimientos.DataSource = negocio.GetRequerimientos(null, null, null);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -25,13 +20,23 @@ namespace Presentacion
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
+            bool? resuelto = null;
+            if (radioButton1.Checked)
+            {
+                resuelto = true;
+            } else if (radioButton2.Checked)
+            {
+                resuelto = false;
+            }
+
+            dataGridRequerimientos.DataSource = negocio.GetRequerimientos(
+                (int)comboBoxTipo.SelectedValue, (int)comboBoxPrioridad.SelectedValue, resuelto);
         }
 
         private void Listado_Requerimientos_Load(object sender, EventArgs e)
         {
-            dataGridRequerimientos.DataSource = negocio.GetRequerimientos();
         }
     }
 }
