@@ -33,9 +33,9 @@ namespace CapaNegocio
             }
         }
 
-        public DataTable GetRequerimientos()
+        public DataTable GetRequerimientos(int? tipo)
         {
-            return database.GetRequerimientos();
+            return database.GetRequerimientos(tipo);
         }
 
         public Dictionary<int, string> GetTipoItems()

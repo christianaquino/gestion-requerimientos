@@ -12,7 +12,7 @@ namespace CapaDatos
 {
     public class BD
     {
-        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=******;database=requerimientos";
+        static readonly string connstring = @"server=127.0.0.1;uid=root;pwd=Mojito.P20;database=requerimientos";
         static readonly MySqlConnection conn = new MySqlConnection(connstring);
         private void Connect() {
             if (conn.State != ConnectionState.Open)
@@ -88,7 +88,7 @@ namespace CapaDatos
             }
         }
 
-        public DataTable GetRequerimientos()
+        public DataTable GetRequerimientos(int? tipo)
         {
             Connect();
             var cmd = conn.CreateCommand();
@@ -97,6 +97,12 @@ namespace CapaDatos
                 "INNER JOIN Prioridad, TipoRequerimiento " +
                 "WHERE Requerimiento.Prioridad_idPrioridad = Prioridad.idPrioridad " +
                 "AND Requerimiento.TipoRequerimiento_idTipoRequerimiento = TipoRequerimiento.idTipoRequerimiento";
+            
+            if(tipo!=null)
+            {
+                cmd.CommandText += " AND TipoRequerimiento.idTipoRequerimiento = " + tipo;
+            }
+            
             var reader = cmd.ExecuteReader();
             
             DataTable requerimientos = new DataTable();
