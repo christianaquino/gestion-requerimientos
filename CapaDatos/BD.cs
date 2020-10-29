@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using MySqlX.XDevAPI;
 
 namespace CapaDatos
 {
@@ -81,7 +82,7 @@ namespace CapaDatos
             }
         }
 
-        public object[] GetRequerimientos()
+        public DataTable GetRequerimientos()
         {
             Connect();
             var cmd = conn.CreateCommand();
@@ -91,63 +92,94 @@ namespace CapaDatos
                 "WHERE Requerimiento.Prioridad_idPrioridad = Prioridad.idPrioridad " +
                 "AND Requerimiento.TipoRequerimiento_idTipoRequerimiento = TipoRequerimiento.idTipoRequerimiento";
             var reader = cmd.ExecuteReader();
-            reader.Read();
-            object[] results = new object[10];
-            reader.GetValues(results);
+            
+            DataTable requerimientos = new DataTable();
+            requerimientos.Columns.Add(new DataColumn("TipoRequerimiento"));
+            requerimientos.Columns.Add(new DataColumn("Prioridad"));
+            requerimientos.Columns.Add(new DataColumn("Descripcion"));
+            requerimientos.Columns.Add(new DataColumn("Plazo"));
+
+            //dataGridRequerimientos.DataSource = new BindingSource(negocio.GetRequerimientos(), null);
+            while(reader.Read())
+            {
+                DataRow newRow = requerimientos.NewRow();
+                newRow["TipoRequerimiento"] = reader.GetValue(0);
+                newRow["Prioridad"] = reader.GetValue(1);
+                newRow["Descripcion"] = reader.GetValue(2);
+                newRow["Plazo"] = reader.GetValue(3);
+                requerimientos.Rows.Add(newRow);
+            }
+           
             reader.Close();
+            return requerimientos;
+        }
+
+        public void RegistrarRequerimiento(int tipoRequerimiento, int prioridad, int usuarioAsignado, int creadoPor, string descripcion)
+        {
+            Connect();
+            var insertCmd = conn.CreateCommand();
+            insertCmd.CommandText = "INSERT INTO Requerimiento " +
+                "(RequerimienetoDescripcion, Prioridad_idPrioridad, TipoRequerimiento_idTipoRequerimiento, AsignadoA_idUsuario, CreadoPor_idUsuario) " +
+                "VALUES (@descripcion, @prioridad, @tipoRequerimiento, @usuarioAsignado, @creadoPor)";
+            insertCmd.Parameters.AddWithValue("@descripcion", descripcion);
+            insertCmd.Parameters.AddWithValue("@prioridad", prioridad);
+            insertCmd.Parameters.AddWithValue("@tipoRequerimiento", tipoRequerimiento);
+            insertCmd.Parameters.AddWithValue("@usuarioAsignado", usuarioAsignado);
+            insertCmd.Parameters.AddWithValue("@creadoPor", creadoPor);
+            insertCmd.ExecuteNonQuery();
+            Close();
+        }
+        public Dictionary<int, string> GetUsuarios()
+        {
+            Connect();
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT idUsuario, UsuarioNombre FROM Usuario ORDER BY UsuarioNombre ASC";
+            var reader = cmd.ExecuteReader();
+            Dictionary<int, string> results = ParseResult(reader);
+            reader.Close();
+            Close();
             return results;
         }
 
-        public object[] GetUsuarios()
+        public Dictionary<int, string> GetTipoRequerimiento()
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idUsuario, UsuarioNombre FROM Usuario";
+            cmd.CommandText = "SELECT idTipoRequerimiento, TipoRequerimientoDescripcion FROM TipoRequerimiento " +
+                "ORDER BY TipoRequerimientoDescripcion ASC";
             var reader = cmd.ExecuteReader();
-            List<object> results = new List<object>();
-            while (reader.Read())
-            {
-                results.Add(new { Text = reader.GetString(1), Value = reader.GetInt32(0) });
-            }
+            Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
             Close();
-            return results.ToArray();
+            return results;
         }
 
-        public object[] GetTipoRequerimiento()
+        public Dictionary<int, string> GetPrioridad()
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idTipoRequerimiento, TipoRequerimientoDescripcion FROM TipoRequerimiento";
+            cmd.CommandText = "SELECT idPrioridad, PrioridadNombre FROM Prioridad ORDER BY PrioridadNombre ASC";
             var reader = cmd.ExecuteReader();
-            List<object> results = new List<object>();
-            while (reader.Read())
-            {
-                results.Add(new { Text = reader.GetString(1), Value = reader.GetInt32(0) } );
-            }
+            Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
             Close();
-            return results.ToArray();
+            return results;
         }
 
-        public object[] GetPrioridad()
+        private Dictionary<int, string> ParseResult(MySqlDataReader reader)
         {
-            Connect();
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idPrioridad, PrioridadNombre FROM Prioridad";
-            var reader = cmd.ExecuteReader();
-            List<object> results = new List<object>();
+            Dictionary<int, string> results = new Dictionary<int, string>();
             while (reader.Read())
             {
-                results.Add(new { Text = reader.GetString(1), Value = reader.GetInt32(0) });
+                results.Add(reader.GetInt32(0), reader.GetString(1));
             }
-            reader.Close();
-            Close();
-            return results.ToArray();
+
+            return results;
         }
     }
 
     public class LoginException: System.Exception { }
 
     public class TooManyAttemptsException: System.Exception { }
+
 }

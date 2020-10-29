@@ -15,7 +15,9 @@ namespace Presentacion
         public Listado_Requerimientos()
         {
             InitializeComponent();
-            dataGridRequerimientos.Rows.Add(negocio.GetRequerimientos());
+            comboBoxTipo.DataSource = new BindingSource(negocio.GetTipoItems(), null);
+            comboBoxPrioridad.DataSource = new BindingSource(negocio.GetPrioridad(), null);
+            dataGridRequerimientos.DataSource = negocio.GetRequerimientos();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

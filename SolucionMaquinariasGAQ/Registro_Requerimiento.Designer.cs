@@ -33,7 +33,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxTipo = new System.Windows.Forms.ComboBox();
             this.comboBoxUsuario = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxDescripcion = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxPrioridad = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -71,32 +71,32 @@
             // 
             // comboBoxTipo
             // 
-            this.comboBoxTipo.DisplayMember = "Text";
+            this.comboBoxTipo.DisplayMember = "Value";
             this.comboBoxTipo.FormattingEnabled = true;
             this.comboBoxTipo.Location = new System.Drawing.Point(168, 51);
             this.comboBoxTipo.Name = "comboBoxTipo";
             this.comboBoxTipo.Size = new System.Drawing.Size(193, 23);
             this.comboBoxTipo.TabIndex = 3;
-            this.comboBoxTipo.ValueMember = "Value";
+            this.comboBoxTipo.ValueMember = "Key";
             this.comboBoxTipo.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // comboBoxUsuario
             // 
-            this.comboBoxUsuario.DisplayMember = "Text";
+            this.comboBoxUsuario.DisplayMember = "Value";
             this.comboBoxUsuario.FormattingEnabled = true;
             this.comboBoxUsuario.Location = new System.Drawing.Point(168, 88);
             this.comboBoxUsuario.Name = "comboBoxUsuario";
             this.comboBoxUsuario.Size = new System.Drawing.Size(193, 23);
             this.comboBoxUsuario.TabIndex = 4;
-            this.comboBoxUsuario.ValueMember = "Value";
+            this.comboBoxUsuario.ValueMember = "Key";
             // 
-            // textBox1
+            // textBoxDescripcion
             // 
-            this.textBox1.Location = new System.Drawing.Point(48, 171);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(313, 87);
-            this.textBox1.TabIndex = 5;
+            this.textBoxDescripcion.Location = new System.Drawing.Point(48, 171);
+            this.textBoxDescripcion.Multiline = true;
+            this.textBoxDescripcion.Name = "textBoxDescripcion";
+            this.textBoxDescripcion.Size = new System.Drawing.Size(313, 87);
+            this.textBoxDescripcion.TabIndex = 5;
             // 
             // label4
             // 
@@ -109,13 +109,13 @@
             // 
             // comboBoxPrioridad
             // 
-            this.comboBoxPrioridad.DisplayMember = "Text";
+            this.comboBoxPrioridad.DisplayMember = "Value";
             this.comboBoxPrioridad.FormattingEnabled = true;
             this.comboBoxPrioridad.Location = new System.Drawing.Point(168, 278);
             this.comboBoxPrioridad.Name = "comboBoxPrioridad";
             this.comboBoxPrioridad.Size = new System.Drawing.Size(193, 23);
             this.comboBoxPrioridad.TabIndex = 7;
-            this.comboBoxPrioridad.ValueMember = "Value";
+            this.comboBoxPrioridad.ValueMember = "Key";
             // 
             // button1
             // 
@@ -125,6 +125,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Guardar";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -134,6 +135,7 @@
             this.button2.TabIndex = 9;
             this.button2.Text = "Limpiar campos";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -143,6 +145,7 @@
             this.button3.TabIndex = 10;
             this.button3.Text = "Listado de Requerimientos";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Registro_Requerimiento
             // 
@@ -154,7 +157,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBoxPrioridad);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxDescripcion);
             this.Controls.Add(this.comboBoxUsuario);
             this.Controls.Add(this.comboBoxTipo);
             this.Controls.Add(this.label3);
@@ -175,7 +178,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxTipo;
         private System.Windows.Forms.ComboBox comboBoxUsuario;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxDescripcion;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxPrioridad;
         private System.Windows.Forms.Button button1;

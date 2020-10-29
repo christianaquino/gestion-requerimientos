@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Text;
 using CapaDatos;
 
@@ -32,24 +33,29 @@ namespace CapaNegocio
             }
         }
 
-        public object[] GetRequerimientos()
+        public DataTable GetRequerimientos()
         {
             return database.GetRequerimientos();
         }
-        
-        public object[] GetTipoItems()
+
+        public Dictionary<int, string> GetTipoItems()
         {
             return database.GetTipoRequerimiento();
         }
 
-        public object[] GetUsuarios()
+        public Dictionary<int, string>  GetUsuarios()
         {
             return database.GetUsuarios();
         }
 
-        public object[] GetPrioridad()
+        public Dictionary<int, string> GetPrioridad()
         {
             return database.GetPrioridad();
+        }
+
+        public void RegistrarRequerimiento(int tipoRequerimiento, int prioridad, int usuarioAsignado, string descripcion)
+        {
+            database.RegistrarRequerimiento(tipoRequerimiento, prioridad, usuarioAsignado, UsuarioLogueado, descripcion);
         }
     }
 }
