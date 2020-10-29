@@ -152,7 +152,7 @@ namespace CapaDatos
             insertCmd.Parameters.AddWithValue("@prioridad", prioridad);
             insertCmd.Parameters.AddWithValue("@tipoRequerimiento", tipoRequerimiento);
             insertCmd.Parameters.AddWithValue("@usuarioAsignado", usuarioAsignado);
-            insertCmd.Parameters.AddWithValue("@creadoPor", 5);
+            insertCmd.Parameters.AddWithValue("@creadoPor", creadoPor);
             insertCmd.ExecuteNonQuery();
             Close();
         }
@@ -160,7 +160,7 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idUsuario, UsuarioNombre FROM Usuario ORDER BY UsuarioNombre ASC";
+            cmd.CommandText = "CALL GET_USUARIOS()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
@@ -185,8 +185,7 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idTipoRequerimiento, TipoRequerimientoDescripcion FROM TipoRequerimiento " +
-                "ORDER BY TipoRequerimientoDescripcion ASC";
+            cmd.CommandText = "CALL GET_TIPO_REQUERIMIENTO()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
@@ -198,7 +197,7 @@ namespace CapaDatos
         {
             Connect();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT idPrioridad, PrioridadNombre FROM Prioridad ORDER BY PrioridadNombre ASC";
+            cmd.CommandText = "CALL GET_PRIORIDAD()";
             var reader = cmd.ExecuteReader();
             Dictionary<int, string> results = ParseResult(reader);
             reader.Close();
